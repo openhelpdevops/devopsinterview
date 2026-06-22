@@ -73,6 +73,35 @@ flowchart LR
     Artifact --> RuntimeImage
 ```
 
+Step 1
+FROM maven:3.9-eclipse-temurin-17 AS build
+
+👉 Download a Docker image that contains Maven and Java 17 for building the application, Creates a build stage named build.
+
+Step 2
+COPY . .
+
+👉 Copy all application source code into the container.
+
+Step 3
+RUN mvn clean package
+
+👉 Compile the code and create app.jar.
+
+Step 4
+FROM eclipse-temurin:17-jre
+COPY --from=build target/app.jar app.jar
+
+👉 Create a new lightweight image with only Java Runtime and copy the generated JAR file into it.
+
+Step 5
+ENTRYPOINT ["java","-jar","app.jar"]
+
+👉 Start the application using:
+
+java -jar app.jar
+
+
 ---
 
 ## 17. What are dangling images, and how do you safely prune them?
