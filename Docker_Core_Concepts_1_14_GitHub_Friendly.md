@@ -160,13 +160,13 @@ Common Instructions:
 Example:
 
 ```dockerfile
-# 1. Base image
-FROM ubuntu:24.04
+# 1. Base image-This command tells Docker to use Ubuntu 24.04 as the base operating system for the container
+FROM nexus.openhelp.net/docker-proxy/ubuntu:24.04
 
-# 2. Environment variable
+# 2. Environment variable-Creates environment variables available inside the container
 ENV APP_HOME=/opt/app
 
-# 3. Create working directory
+# 3. Create working directory-Sets the current working directory inside the container
 WORKDIR ${APP_HOME}
 
 # 4. Run commands during image build
@@ -176,16 +176,16 @@ RUN apt-get update && \
 # 5. Copy file from host to container
 COPY index.html /var/www/html/
 
-# 6. Add and automatically extract archive
+# 6. Add -Similar to COPY, but can automatically extract archives.
 ADD app.tar.gz /tmp/
 
-# 7. Document application port
+# 7. Document application port-expose the port used by the application.
 EXPOSE 80
 
-# 8. Default command
+# 8. Default command-Default command executed when the container starts.
 CMD ["nginx", "-g", "daemon off;"]
 
-# 9. Main executable (alternative to CMD)
+# 9. Main executable (alternative to CMD)-Defines the main executable of the container.
 # ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```
 
