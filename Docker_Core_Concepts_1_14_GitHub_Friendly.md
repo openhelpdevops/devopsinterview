@@ -160,10 +160,33 @@ Common Instructions:
 Example:
 
 ```dockerfile
-FROM nginx
-COPY index.html /usr/share/nginx/html
+# 1. Base image
+FROM ubuntu:24.04
+
+# 2. Environment variable
+ENV APP_HOME=/opt/app
+
+# 3. Create working directory
+WORKDIR ${APP_HOME}
+
+# 4. Run commands during image build
+RUN apt-get update && \
+    apt-get install -y nginx
+
+# 5. Copy file from host to container
+COPY index.html /var/www/html/
+
+# 6. Add and automatically extract archive
+ADD app.tar.gz /tmp/
+
+# 7. Document application port
 EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+
+# 8. Default command
+CMD ["nginx", "-g", "daemon off;"]
+
+# 9. Main executable (alternative to CMD)
+# ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```
 
 ---
